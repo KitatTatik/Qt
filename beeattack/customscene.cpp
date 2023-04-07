@@ -45,6 +45,7 @@ void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsItem *foundItem = this->itemAt(event->scenePos().x(),event->scenePos().y(),QTransform());
         //removeItem(foundItem);
         delete(foundItem);
+        this->itemAt(274,466,QTransform())->setFocus();
         //if (foundItem->isSelected()) {
         //  foundItem->hide();
         //}

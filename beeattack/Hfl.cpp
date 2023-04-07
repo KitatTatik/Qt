@@ -61,21 +61,23 @@ void Hfl::keyPressEvent(QKeyEvent *event)
     }
  */
 
-    if ((event->key() == Qt::Key_Up) && (i < 8)) {
+    if ((event->key() == Qt::Key_Up) && (i < 6)) {
         ratio = ratio * 1.75;
         this->setY((this->y()) - 65.2*ratio);
         this->setX((this->x()) - 30.2*ratio);
-        angle += 9*k;
+        this->setZValue(ratio*500.);
+        angle += 15*k;
         k=-k;
         i++;
-        qDebug() << "x y" << this->x() << this->y();
+        //qDebug() << "ratio" << ratio << "and" << this->zValue();
         setRotation(angle);
     }
     if ((event->key() == Qt::Key_Down) && (i >= 0)) {
+        this->setZValue(ratio*500.);
         this->setX((this->x()) + 30.2*ratio);
         this->setY((this->y()) + 65.2*ratio);
         ratio = ratio / 1.75;
-        angle += 9*k;
+        angle += 15*k;
         k=-k;
         --i;
         qDebug() << "x y" << this->x() << this->y();

@@ -54,9 +54,9 @@ Widget::Widget(QWidget *parent) :
     connect(scene, &CustomScene::signalTargetCoordinate, tbee, &Tbee::slotTarget);
     connect(scene, &CustomScene::signalTargetCoordinate, tbee, &Tbee::slotSound);
 
-    //scene->installEventFilter(this);
+
     Hfl *hfl=new Hfl();
-    int hfl_x =274;
+    int hfl_x =274; // ATT!!! used below in stuff placement method
     int hfl_y =466;
     hfl->setPos(hfl_x,hfl_y);
     hfl->setFlag(QGraphicsItem::ItemIsFocusable,true);
@@ -64,9 +64,11 @@ Widget::Widget(QWidget *parent) :
     hfl->setXY(hfl_x,hfl_y);
     hfl->setScale(0.05);
 
-    // qDebug() << "scale wdg" << scale(hfl);
     scene->addItem(hfl);
     hfl->setFocus();
+    //scene->setFocusItem(hfl,Qt::MouseFocusReason);
+    //hfl->installEventFilter(this);
+
     MyPoi *poi = NULL;
     qDebug() << "Compiled with Qt Version = " << QT_VERSION_STR;
     //qDebug() << QSqlDatabase::drivers(); //- was needed to verify the postgres-sql-driver presence
@@ -131,7 +133,7 @@ Widget::Widget(QWidget *parent) :
                    poi->myVector.push_back(smthpic);
                    //qDebug() << name << "  " << smthpic << " deb1" << poi->myVector.size();
                    scene->addItem(poi);
-                   connect(poi,SIGNAL(signal1(int, int, QVector<QString>)),this, SLOT(slotFromPoi(int,int,QVector<QString>)));
+                   connect(poi,SIGNAL(signal1(int,int,QVector<QString>)),this, SLOT(slotFromPoi(int,int,QVector<QString>)));
                    oldname=name;
                 }
             }
@@ -189,5 +191,8 @@ void Widget::slotFromPoi(int x, int y, QVector<QString> myVector)
         about.setIconPixmap(QPixmap(":/images/" + myVector[i]));
         about.exec();
         about.show();
+        //scene->setFocus();
+        scene->itemAt(274,466,QTransform())->setFocus();
+
     }
 }
