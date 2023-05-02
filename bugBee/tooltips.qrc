@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/compress.wav</file>
+        <file>images/ouch.wav</file>
+        <file>images/ball.png</file>
+        <file>images/ball1.png</file>
+        <file>images/ball2.png</file>
+        <file>images/map.png</file>
+        <file>images/bee1.png</file>
+        <file>images/bag.png</file>
+        <file>images/pail.png</file>
+        <file>images/pot.png</file>
+        <file>images/shovel.png</file>
+        <file>images/truck.png</file>
+        <file>images/tigball.png</file>
+        <file>images/milk.png</file>
+        <file>images/tail.png</file>
+        <file>images/book.png</file>
+        <file>images/hfl2.png</file>
+    </qresource>
+</RCC>
