@@ -157,6 +157,6 @@ void Widget::slotFromPoi(int x, int y, QVector<QString> myVector)
         about.exec();
         about.show();
         //scene->setFocus();
-        scene->itemAt(274,466,QTransform())->setFocus(); // probably crash caused HERE?
+        if(scene->itemAt(274,466,QTransform())) scene->itemAt(274,466,QTransform())->setFocus(); // if added;
     }
 }
