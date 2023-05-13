@@ -8,11 +8,9 @@ QT_BEGIN_NAMESPACE
 using namespace std;
 QT_END_NAMESPACE
 
-qreal dif =200;
-static const double Pi = 3.141592653;
-static double TwoPi = 2.0 * Pi;
-QSound bee(":/images/compress.wav");
-QSound scream(":/images/ouch.wav");
+
+constexpr double Pi = 3.141592653;
+constexpr double TwoPi = 2.0 * Pi;
 
 static qreal normalizeAngle(qreal angle)
 {
@@ -22,13 +20,15 @@ static qreal normalizeAngle(qreal angle)
         angle -= TwoPi;
     return angle;
 }
-Tbee::Tbee()
-    : QGraphicsObject()
+Tbee::Tbee(QGraphicsItem *parent)
+    : QGraphicsObject(parent)
 {
+    bee=new QSound(":/images/compress.wav", this);
+    scream=new QSound(":/images/ouch.wav", this);
     setRotation(0);
 
     state = STOP;
-    gameTimer = new QTimer();
+    gameTimer = new QTimer(this);
     connect(gameTimer, &QTimer::timeout, this, &Tbee::slotGameTimer);
     gameTimer->start(10);
 }
@@ -81,8 +81,8 @@ void Tbee::slotGameTimer()
         // pooh control
         eps = 2;
         if ((abs(this->y() - 375) < eps) && (abs(this->x() - 135) < eps)) {
-            scream.play();
-            scream.setLoops(1);
+            scream->play();
+            scream->setLoops(1);
             emit mysignal(130,305);
         }
         QList<QGraphicsItem *> foundItems = scene()->items(QPolygonF()
@@ -125,7 +125,7 @@ void Tbee::slotTarget(QPointF point)
 
 void Tbee::slotSound()
 {
-    bee.setLoops(2);// QSound::Infinite
-    bee.play();
+    bee->setLoops(2);// QSound::Infinite
+    bee->play();
 }
 

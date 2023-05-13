@@ -4,12 +4,12 @@
 #include <QWidget>
 #include <QMessageBox>
 #include <QLabel>
-#include "customscene.h"
 #include <QTimer>
+#include "customscene.h"
 
-#include "tbee.h"
-#include "ball.h"
-#include "Hfl.h"
+//#include "tbee.h"
+//#include "ball.h"
+//#include "Hfl.h"
 
 namespace Ui {
 class Widget;

@@ -13,7 +13,7 @@ class Tbee : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    explicit Tbee();
+    explicit Tbee(QGraphicsItem *parent=nullptr);
 signals:
 
 private:
@@ -28,6 +28,14 @@ private:
     QTimer *gameTimer;
     QPointF target;
     bool state;
+
+//transferred from tbee.cpp file-level
+
+    qreal dif =200;
+    QSound *bee;
+    QSound *scream;
+
+
 signals:
     void mysignal(int,int);
 private slots:
