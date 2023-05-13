@@ -47,7 +47,7 @@ void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         //delete(foundItem);
         //!!! added if(foundItem), otherwise it crashes
         if(foundItem) foundItem->hide();
-        this->itemAt(274,466,QTransform())->setFocus();
+        if(this->itemAt(274,466,QTransform())) this->itemAt(274,466,QTransform()) ->setFocus();
     }
 }
 
