@@ -62,7 +62,7 @@ Widget::Widget(QWidget *parent) :
     const char* driverName = "QPSQL";
     QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
     QSqlDatabase* db = qSQLDbHelper->connect("localhost", "tatik", "tatik", "tatik");
-    if(db->open()) {
+    if(db&&db->open()) {
        QSqlQuery *query = new QSqlQuery(*db);
        query->setForwardOnly(true);
        if( !query->prepare(QString("SELECT * FROM qmap")) )
@@ -94,6 +94,10 @@ Widget::Widget(QWidget *parent) :
             smthcolor = query->value(rec.indexOf("ccolor")).toString();
             smthpic = query->value(rec.indexOf("pic")).toString();
             if (age == "0") age = "unknown";
+/*there is a small problem with this approach: it looks suspicious
+when we use apparently null pointer. While it could be discerned that it should
+never be null, WTF-moments are bad karma. It works, but could be better.
+Right now a comment would suffice*/
             if (name==oldname) {
                tipname = tipname + "\n             " + smth + ", " + smthcolor;
                poi->setInfo(tipname);
@@ -114,7 +118,9 @@ Widget::Widget(QWidget *parent) :
             }
         }
     } else {
-       qDebug() << "Something went Wrong:" << db->lastError().text();
+//       qDebug() << "Something went Wrong:" << db->lastError().text();
+//we don't have db here; just exiting the application
+        QApplication::exit(1);
     }
 }
 

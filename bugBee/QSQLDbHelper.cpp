@@ -1,4 +1,5 @@
 #include "QSQLDbHelper.h"
+#include <QMessageBox>
 
 QSQLDbHelper::QSQLDbHelper(const char* driver)
 {
@@ -26,6 +27,11 @@ QSqlDatabase* QSQLDbHelper::connect( const QString& server,
         return db;
     }
     else {
+        QSqlError error=db->lastError();
+        QMessageBox msgBox;
+        msgBox.setText(error.text());
+        msgBox.exec();
+
         return NULL;
     }
 }

@@ -1,15 +1,12 @@
 #include "Hfl.h"
 #include <QKeyEvent>
 #include <QDebug>
-int k = 1;
-int i = 0;
 
-Hfl::Hfl()
-     :QGraphicsObject()
+Hfl::Hfl(QGraphicsItem *parent)
+     :QGraphicsObject(parent),
+    angle(0.), ratio(0.025), k(1), i(0)
+//it would be better to provide for default values of ix and iy, too
 {
-   angle = 0.;
-   ratio = 0.025;
-
    setRotation(angle);
    setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
    setFlags(QGraphicsItem::ItemSendsGeometryChanges|

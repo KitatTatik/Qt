@@ -16,7 +16,7 @@
         Q_OBJECT
 
     public:
-        explicit Hfl();
+        explicit Hfl(QGraphicsItem *parent=nullptr);
         Qt::FocusPolicy StrongFocus;
         Qt::FocusPolicy grabKeyboard;
         void setXY (int,int);
@@ -33,8 +33,10 @@
     private:
         qreal angle,ratio;
         int ix,iy;
+      //transferred from the file-level in Hfl.cpp
+        int k;
+        int i;
 
-     
     };
      
     #endif // Hfl_H
