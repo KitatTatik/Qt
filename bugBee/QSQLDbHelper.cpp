@@ -1,6 +1,9 @@
-#include "QSQLDbHelper.h"
+#include <QtSql>
+#include <QString>
+#include <QDebug>
 #include <QMessageBox>
-
+#include "QSQLDbHelper.h"
+/*
 QSQLDbHelper::QSQLDbHelper(const char* driver)
 {
     db = new QSqlDatabase( QSqlDatabase::addDatabase(driver) );
@@ -58,4 +61,28 @@ void QSQLDbHelper::disConnect()
 {
     qDebug() << "Disconnected From Database!";
     db->close();
+}
+*/
+bool db_connect( const QString& server,
+                const QString& databaseName,
+                const QString& userName,
+                const QString& password )
+{
+    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
+    db.setConnectOptions();
+    db.setHostName(server);
+    db.setDatabaseName(databaseName);
+    db.setUserName(userName);
+    db.setPassword(password);
+
+    if(db.open()) {
+        return true;
+    }
+    else {
+        QMessageBox msgBox;
+        msgBox.setText(db.lastError().text());
+        msgBox.exec();
+        return false;
+    }
+
 }

@@ -1,9 +1,7 @@
 #ifndef QSQLDBHELPER_H
 #define QSQLDBHELPER_H
-#include <QtSql>
-#include <QString>
-#include <QDebug>
 
+/*
 class QSQLDbHelper
 {
 public:
@@ -20,5 +18,11 @@ public:
 private:
     QSqlDatabase* db;
 };
+*/
+class QString;
+bool db_connect( const QString& server,
+             const QString& databaseName,
+             const QString& userName,
+             const QString& password );
 
 #endif // QSQLDBHELPER_H

@@ -1,9 +1,8 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QCoreApplication>
-#include <QtSql/QSql>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlDriver>
+#include <QtSql>
+
 #include "QSQLDbHelper.h"
 #include "widget.h"
 #include "ui_widget.h"
@@ -59,40 +58,40 @@ Widget::Widget(QWidget *parent) :
 
     MyPoi *poi = NULL;
     qDebug() << "Compiled with Qt Version = " << QT_VERSION_STR;
-    const char* driverName = "QPSQL";
-    QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
-    QSqlDatabase* db = qSQLDbHelper->connect("localhost", "tatik", "tatik", "tatik");
-    if(db&&db->open()) {
-       QSqlQuery *query = new QSqlQuery(*db);
-       query->setForwardOnly(true);
-       if( !query->prepare(QString("SELECT * FROM qmap")) )
+ //   const char* driverName = "QPSQL";
+ //   QSQLDbHelper* qSQLDbHelper = new QSQLDbHelper(driverName);
+ //   QSqlDatabase* db = qSQLDbHelper->connect("localhost", "tatik", "tatik", "tatik");
+    if(db_connect("localhost", "tatik", "tatik", "tatik")) {
+       QSqlQuery query;
+       query.setForwardOnly(true);
+       if( !query.prepare(QString("SELECT * FROM qmap")) )
        {
-           qDebug() <<"Error = " << db->lastError().text();
+           qDebug() <<"Error = " << query.lastError().text();
        }
-       int queryResultRowCount = qSQLDbHelper->selectRowCountResult(query);
-       qDebug() << "Initial Row Count = " << queryResultRowCount << "\n";
-       if( !query->exec(QString
+  //     int queryResultRowCount = qSQLDbHelper->selectRowCountResult(query);
+ //      qDebug() << "Initial Row Count = " << queryResultRowCount << "\n";
+       if( !query.exec(QString
         ("SELECT qmap.person as owner, wood.color,address,x,y,r,age, sex,item,stuff.color as ccolor,pic FROM qmap,wood,stuff WHERE qmap.person=wood.person AND qmap.person =stuff.person ORDER BY qmap.person;")) )
        {
            qDebug() << " Error with myquery ";
        }
-       QSqlRecord rec     = query->record();
+       QSqlRecord rec     = query.record();
        QString    tipname,name,color,sex;
        QString    address, age, smth, smthcolor,smthpic;
        int        poix, poiy, poir;
        QString oldname="";
-       while (query->next()) {
-            name  = query->value(rec.indexOf("owner")).toString();
-            address  = query->value(rec.indexOf("address")).toString();
-            poix = query->value(rec.indexOf("x")).toInt();
-            poiy = query->value(rec.indexOf("y")).toInt();
-            poir = query->value(rec.indexOf("r")).toInt();
-            color  = query->value(rec.indexOf("color")).toString();
-            sex  = query->value(rec.indexOf("sex")).toString();
-            age = query->value(rec.indexOf("age")).toString();
-            smth  = query->value(rec.indexOf("item")).toString();
-            smthcolor = query->value(rec.indexOf("ccolor")).toString();
-            smthpic = query->value(rec.indexOf("pic")).toString();
+       while (query.next()) {
+            name  = query.value(rec.indexOf("owner")).toString();
+            address  = query.value(rec.indexOf("address")).toString();
+            poix = query.value(rec.indexOf("x")).toInt();
+            poiy = query.value(rec.indexOf("y")).toInt();
+            poir = query.value(rec.indexOf("r")).toInt();
+            color  = query.value(rec.indexOf("color")).toString();
+            sex  = query.value(rec.indexOf("sex")).toString();
+            age = query.value(rec.indexOf("age")).toString();
+            smth  = query.value(rec.indexOf("item")).toString();
+            smthcolor = query.value(rec.indexOf("ccolor")).toString();
+            smthpic = query.value(rec.indexOf("pic")).toString();
             if (age == "0") age = "unknown";
 /*there is a small problem with this approach: it looks suspicious
 when we use apparently null pointer. While it could be discerned that it should
@@ -115,8 +114,8 @@ Right now a comment would suffice*/
                scene->addItem(poi);
                connect(poi,SIGNAL(signal1(int,int,QVector<QString>)),this, SLOT(slotFromPoi(int,int,QVector<QString>)));
                oldname=name;
-            }
-        }
+            }//else from if(name==oldname)
+        }//while(query.next)
     } else {
 //       qDebug() << "Something went Wrong:" << db->lastError().text();
 //we don't have db here; just exiting the application
